@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# OWS Guardian Specific
+simulator-logs.jsonl
+*.jsonl
+.ows/
