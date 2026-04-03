@@ -32,7 +32,7 @@ export async function GET() {
 export async function POST() {
   try {
     // DON'T FORGET TO PUT YOUR OWN KEY ID HERE
-    const KEY_ID = "PASTE_YOUR_KEY_ID_HERE_FOR_REVOCATION"; 
+    const KEY_ID = "0e18be5c-60ee-48bc-9d07-ed94a4f5ad09"; 
     await execPromise(`ows key revoke --id ${KEY_ID} --confirm`);
     return NextResponse.json({ success: true });
   } catch (error) {

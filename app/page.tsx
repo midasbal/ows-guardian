@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Shield, Activity, XOctagon, Server, ShieldAlert, Cpu, Download, Zap, Lock, ShieldCheck, HelpCircle, Loader2, Binary, Radio, Terminal, Target } from "lucide-react";
+import { Shield, Activity, XOctagon, Server, ShieldAlert, Cpu, Download, Zap, Lock, ShieldCheck, HelpCircle, Loader2, Binary, Radio, Terminal } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
 
 interface LogEntry {
@@ -57,7 +57,9 @@ export default function OWSGuardianDashboard() {
         const authTotal = fetchedLogs.filter(l => l.status === "AUTHORIZED").length;
         const blockTotal = fetchedLogs.filter(l => l.status === "BLOCKED").length;
 
-        setLogs(fetchedLogs.slice(0, 6));
+        // DÜZELTME 1: Tüm logları hafızaya al ki EXPORT hepsiyle çalışabilsin
+        setLogs(fetchedLogs);
+        
         setAuthorizedCount(authTotal);
         setBlockedCount(blockTotal);
 
@@ -107,6 +109,7 @@ export default function OWSGuardianDashboard() {
 
   const exportAuditLog = () => {
     const headers = "Timestamp (UTC),Operation,Chain,Status,Hash,Payload\n";
+    // Artık 'logs' dizisi tüm verileri içerdiği için eksiksiz CSV indirecek
     const csvContent = logs.map(log => `${log.timestamp},${log.operation},${log.chain_id},${log.status},${log.txHash || 'DENIED'},${log.payload}`).join("\n");
     const blob = new Blob([headers + csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -198,8 +201,6 @@ export default function OWSGuardianDashboard() {
 
           <div className="bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-10 flex flex-col shadow-2xl">
             <h2 className="text-[11px] font-black text-slate-500 uppercase mb-8 flex items-center gap-3 tracking-[0.4em] text-indigo-400 italic font-black uppercase"><Activity className="w-5 h-5" /> Security Heartbeat</h2>
-            
-            {/* RECHARTS UYARISINI ÇÖZEN SABİT YÜKSEKLİK */}
             <div style={{ width: '100%', height: 220 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={history} margin={{ left: -20, bottom: 0, right: 0, top: 0 }}>
@@ -212,13 +213,13 @@ export default function OWSGuardianDashboard() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-
           </div>
 
           <div className="bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 shadow-inner">
             <h2 className="text-xs font-black text-slate-500 uppercase mb-10 flex items-center gap-3 tracking-[0.3em] text-blue-400 italic font-black uppercase"><ShieldCheck className="w-5 h-5" /> Forensic Evidence Stream</h2>
             <div className="space-y-6">
-              {logs.map((log, i) => (
+              {/* DÜZELTME 2: Sadece son 6 logu ekrana bastırıyoruz, ama state'de hepsi duruyor */}
+              {logs.slice(0, 6).map((log, i) => (
                 <div key={i} className={`p-6 rounded-[2rem] bg-black/30 border animate-in slide-in-from-top-4 fade-in duration-700 transition-all ${log.status === 'AUTHORIZED' ? 'border-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.05)]' : 'border-red-500/20 shadow-[0_0_20px_rgba(239,68,68,0.05)]'}`}>
                   <div className="flex justify-between items-center mb-5 text-[10px] font-black tracking-[0.2em] uppercase font-black"><span className={log.status === 'AUTHORIZED' ? 'text-emerald-500' : 'text-red-500'}>{log.status}</span><span className="text-slate-700 font-mono tracking-widest">{log.timestamp}</span></div>
                   <div className="space-y-4 font-mono text-[10px]">
@@ -275,17 +276,6 @@ export default function OWSGuardianDashboard() {
             </div>
             <p className="text-[14px] text-slate-400 leading-relaxed font-medium">
               We utilize <span className="text-white font-bold">cryptographic simulation</span> for real-time dashboard metrics. This approach eliminates variable gas fees and network latencies inherent in the testnet, ensuring a seamless monitoring experience.
-            </p>
-          </div>
-          <div className="group bg-white/[0.02] hover:bg-white/[0.04] backdrop-blur-md border border-white/5 p-12 rounded-[3rem] transition-all duration-500 hover:border-amber-500/20 shadow-xl">
-            <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-6">
-              <div className="p-3 bg-amber-500/10 rounded-xl border border-amber-500/20 group-hover:scale-110 transition-transform">
-                <Target className="w-6 h-6 text-amber-400" />
-              </div>
-              <h3 className="text-[13px] font-black text-amber-400 uppercase tracking-[0.2em] font-black">[ THREAT_MONITORING ]</h3>
-            </div>
-            <p className="text-[14px] text-slate-400 leading-relaxed font-medium">
-              While native OWS audit logs append only successful broadcasts, Guardian utilizes a custom wrapper to monitor and log <span className="text-white font-bold">Policy Engine rejections (BLOCKED)</span> in real-time, providing comprehensive threat intelligence.
             </p>
           </div>
 
