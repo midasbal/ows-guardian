@@ -2,6 +2,11 @@
 
 > **"Datadog for Agent Wallets."**
 > Fulfilling the core infrastructure needs for *Category 02: Agent Spend Governance & Identity.*
+>
+> <p align="center">
+  <img width="100%" alt="OWS Guardian Dashboard" src="https://github.com/user-attachments/assets/4c113957-80f3-483e-a5e4-b5cd33505cc7" />
+</p>
+
 
 ## 💡 The Vision: Killing the `.env` Vulnerability
 As AI agents become first-class participants in DeFi, giving them raw private keys is a catastrophic security risk. Traditional architectures force developers to scatter keys in `.env` files or rely on centralized cloud HSMs. 
