@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const AGENT_TOKEN = "ows_key_92ad4b50566bee68b23bf12a3141d85aebb83978907cff46f593a4a75bcca831"; 
+const AGENT_TOKEN = "YOUR_OWS_KEY_HERE"; 
 const WALLET_NAME = "guardian-treasury";
 const targetNetworks = ["eip155:11155111", "eip155:1"];
 const dummyTransactionPayload = "0x02f87101830186a08080843b9aca0080808080";

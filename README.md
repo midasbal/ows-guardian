@@ -5,6 +5,8 @@
 
 >📺 **[Watch the Demo Video Here](https://youtu.be/zT69fFOo18A)**
 
+> ⚠️ **Security Note Regarding Demo:** The test keys and agent tokens visible in the demo video were temporarily hardcoded strictly for recording purposes. To maintain our strict zero-trust policy, those specific keys were permanently revoked immediately after the push. When running OWS Guardian locally, you must generate and supply your own local OWS keys.
+
 
 > <p align="center">
   <img width="100%" alt="OWS Guardian Dashboard" src="https://github.com/user-attachments/assets/4c113957-80f3-483e-a5e4-b5cd33505cc7" />
